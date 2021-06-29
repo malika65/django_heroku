@@ -89,9 +89,14 @@ WSGI_APPLICATION = 'bot_for_heroku.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('postgres://tmcagbyxpszqbd:7f6ae4d1154ffb73cffcc1db9839b57ef40f58116d8b29933ffbdc28c8eba217@ec2-54-220-170-192.eu-west-1.compute.amazonaws.com:5432/d8u3othruprelt')
+    )
+}
 
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
