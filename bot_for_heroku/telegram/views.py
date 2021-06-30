@@ -34,7 +34,7 @@ class UpdateBot(APIView):
     def post(self, request):
         # Сюда должны получать сообщения от телеграм и далее обрабатываться ботом
         bot.remove_webhook()
-        s = bot.set_webhook(url='https://22805ac065c3.ngrok.io' + settings.TOKEN)
+        s = bot.set_webhook(url='https://api.telegram.org/bot'+settings.TOKEN+'/setWebhook')
         if s:
             return print("webhook setup ok")
         else:
