@@ -39,9 +39,11 @@ class UpdateBot(APIView):
         #     return print("webhook setup ok")
         # else:
         #     return print("webhook setup failed")
-        json_str = request.stream.read().decode("utf-8")
-        update = types.Update.de_json(json_str)
-        bot.process_new_updates([update])
+        # json_str = request.stream.read().decode("utf-8")
+        # update = types.Update.de_json(json_str)
+        # bot.process_new_updates([update])
+        bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+
  
         return Response({'code': 200})
 
