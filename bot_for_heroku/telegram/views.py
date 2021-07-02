@@ -31,15 +31,8 @@ links = {"Глава МСУ":"https://t.me/joinchat/Pug4_9U3A403ZTY6",
 "Начальник ФЭО айыл окмоту/мэрии":"https://t.me/joinchat/O5Gb9mwAczM4NTA6"}
 
 class UpdateBot(APIView):
-    def post(self, request):
+    def post(self, request,):
         # Сюда должны получать сообщения от телеграм и далее обрабатываться ботом
-        bot.remove_webhook()
-        s = bot.set_webhook(url='https://api.telegram.org/bot'+settings.TOKEN+'/setWebhook')
-        # if s:
-        #     return print("webhook setup ok")
-        # else:
-        #     return print("webhook setup failed")
-        print(request.body.decode('UTF-8'))
         json_str = request.body.decode('UTF-8')
         update = types.Update.de_json(json_str)
         bot.process_new_updates([update])
