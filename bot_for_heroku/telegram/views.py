@@ -174,7 +174,7 @@ def process_city_or_raion(message):
         print(e)
         bot.reply_to(message, 'Пожалуйста выберите что-то из списка ниже')
         msg = bot.send_message(chat_id, 'Выберите категорию',reply_markup=gen_category())
-        bot.register_next_step_handler(msg, process_save_city_or_obl)
+        bot.register_next_step_handler(msg, process_city_or_raion)
 
 def process_raion(message):
     try:
