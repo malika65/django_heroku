@@ -168,13 +168,29 @@ def process_city_or_raion(message):
             if message.text == 'Город':
                 bot.register_next_step_handler(msg, process_save_city_or_obl)
             elif message.text == 'Район':
-                bot.register_next_step_handler(msg, process_kenesh)
+                bot.register_next_step_handler(msg, process_raion)
 
     except Exception as e:
         print(e)
         bot.reply_to(message, 'Пожалуйста выберите что-то из списка ниже')
         msg = bot.send_message(chat_id, 'Выберите категорию',reply_markup=gen_category())
         bot.register_next_step_handler(msg, process_save_city_or_obl)
+
+def process_raion(message):
+    try:
+        if message.text == '🏡 Главное меню':
+            bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
+            bot.send_message(message.chat.id, message.from_user.first_name+" выберите категорию",reply_markup=gen_markup_main())
+        else:
+            chat_id = message.chat.id
+            user = user_dict[chat_id]
+            user.raion = message.text
+            
+    except Exception as e:
+        print(e)
+        bot.reply_to(message, 'Пожалуйста выберите что-то из списка ниже')
+        msg = bot.send_message(chat_id, 'Выберите категорию',reply_markup=gen_category())
+        bot.register_next_step_handler(msg, process_city_or_raion)
 
 def process_kenesh(message):
     try:
@@ -185,7 +201,6 @@ def process_kenesh(message):
             chat_id = message.chat.id
             user = user_dict[chat_id]
             user.kenesh = message.text
-            user.save()
             
         # ваша заявка "Имя пользователя"
         bot.send_message(chat_id, getRegData(user, ' Ваша заявка', message.from_user.first_name), parse_mode="Markdown",reply_markup=gen_markup_main())
@@ -211,7 +226,6 @@ def process_save_city_or_obl(message):
             chat_id = message.chat.id
             user = user_dict[chat_id]
             user.city = message.text
-            user.raion = message.text
             user.save()
             
         # ваша заявка "Имя пользователя"
