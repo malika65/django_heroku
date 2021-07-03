@@ -81,9 +81,14 @@ def gen_raion(oblast,categ):
 
     return markup
 
-def get_raion(txt,k):
-    l = [(raiony[k])[(raiony[k]).index(txt)]]
-    return ' '.join([str(item) for item in l])
+def get_kenesh(raion):
+    markup = types.ReplyKeyboardMarkup(row_width=1,one_time_keyboard=True, resize_keyboard=True)
+    r = Kenesh.objects.filter(raion__name=raion)
+    for i in r:
+        markup.add(types.KeyboardButton(str(i)))
+    back = types.KeyboardButton('🏡 Главное меню')
+    markup.add(back)
+    
 
     
 

@@ -16,7 +16,7 @@ from .button import (
     gen_raion,
     get_place,
     get_work,
-    get_raion,
+    get_kenesh,
     gen_category
 )
 
@@ -185,6 +185,9 @@ def process_raion(message):
             chat_id = message.chat.id
             user = user_dict[chat_id]
             user.raion = message.text
+
+            msg = bot.send_message(chat_id, 'Выберите кенеш',reply_markup=get_kenesh(user.raion))
+            bot.register_next_step_handler(msg, process_kenesh)
             
     except Exception as e:
         print(e)
