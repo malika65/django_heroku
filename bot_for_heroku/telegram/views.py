@@ -144,7 +144,7 @@ def process_place_step(message):
         else:
             chat_id = message.chat.id
             user = user_dict[chat_id]
-            user.oblast = get_place(message.text)
+            user.place = get_place(message.text)
 
             msg = bot.send_message(chat_id, 'Выберите категорию',reply_markup=gen_category())
             bot.register_next_step_handler(msg, process_city_or_raion)
@@ -162,7 +162,7 @@ def process_city_or_raion(message):
         else:
             chat_id = message.chat.id
             user = user_dict[chat_id]
-            oblast = user.oblast          
+            oblast = user.place          
             
             msg = bot.send_message(chat_id, 'Выберите место работы',reply_markup=gen_raion(oblast, message.text))
             if message.text == 'Город':
