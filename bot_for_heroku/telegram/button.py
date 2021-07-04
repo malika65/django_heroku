@@ -64,30 +64,33 @@ def gen_category():
     markup.add(itembtn1, itembtn2,back)
     return markup
 
-def gen_raion(oblast,categ):
+def gen_raion(oblast):
     markup = types.ReplyKeyboardMarkup(row_width=1,one_time_keyboard=True, resize_keyboard=True)
-    if categ == 'Район':
-        r = Raiony.objects.filter(oblasti__name=oblast)
-        for i in r:
-            markup.add(types.KeyboardButton(str(i)))
-
-    elif categ == 'Город':
-        c = City.objects.filter(oblasti__name=oblast)
-        for i in c:
-            markup.add(types.KeyboardButton(str(i)))
-
+    r = Raiony.objects.filter(oblasti__name=oblast)
+    for i in r:
+        markup.add(types.KeyboardButton(str(i)))
     back = types.KeyboardButton('🏡 Главное меню')
     markup.add(back)
 
     return markup
 
-def get_kenesh(raion):
+def get_city(oblast):
     markup = types.ReplyKeyboardMarkup(row_width=1,one_time_keyboard=True, resize_keyboard=True)
-    r = Kenesh.objects.filter(raion__name=raion)
+    r = City.objects.filter(oblasti__name=oblast)
     for i in r:
         markup.add(types.KeyboardButton(str(i)))
     back = types.KeyboardButton('🏡 Главное меню')
     markup.add(back)
+    return markup
+
+def get_kenesh(raion):
+    markup = types.ReplyKeyboardMarkup(row_width=1,one_time_keyboard=True, resize_keyboard=True)
+    r = Kenesh.objects.filter(raiony__name=raion)
+    for i in r:
+        markup.add(types.KeyboardButton(str(i)))
+    back = types.KeyboardButton('🏡 Главное меню')
+    markup.add(back)
+    return markup
     
 
     

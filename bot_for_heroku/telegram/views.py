@@ -17,7 +17,8 @@ from .button import (
     get_place,
     get_work,
     get_kenesh,
-    gen_category
+    gen_category,
+    get_city
 )
 
 
@@ -164,10 +165,11 @@ def process_city_or_raion(message):
             user = user_dict[chat_id]
             oblast = user.place          
             
-            msg = bot.send_message(chat_id, 'Выберите место работы',reply_markup=gen_raion(oblast, message.text))
             if message.text == 'Город':
+                msg = bot.send_message(chat_id, 'Выберите город',reply_markup=get_city(oblast))
                 bot.register_next_step_handler(msg, process_save_city_or_obl)
             elif message.text == 'Район':
+                msg = bot.send_message(chat_id, 'Выберите район',reply_markup=gen_raion(oblast))
                 bot.register_next_step_handler(msg, process_raion)
 
     except Exception as e:
@@ -186,7 +188,7 @@ def process_raion(message):
             user = user_dict[chat_id]
             user.raion = message.text
 
-            msg = bot.send_message(chat_id, 'Выберите кенеш',reply_markup=get_kenesh(user.raion))
+            msg = bot.send_message(chat_id, 'Выберите кенеш',reply_markup=get_kenesh(message.text))
             bot.register_next_step_handler(msg, process_kenesh)
             
     except Exception as e:
@@ -204,6 +206,7 @@ def process_kenesh(message):
             chat_id = message.chat.id
             user = user_dict[chat_id]
             user.kenesh = message.text
+            user.save()
             
         # ваша заявка "Имя пользователя"
         bot.send_message(chat_id, getRegData(user, ' Ваша заявка', message.from_user.first_name), parse_mode="Markdown",reply_markup=gen_markup_main())
