@@ -57,9 +57,9 @@ class User:
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
     
-    bot.send_message(message.chat.id, "Здравствуйте "
+    bot.send_message(message.chat.id, "Саламатсызбы "
     + message.from_user.first_name
-    + ", я бот, чтобы вы хотели узнать?", reply_markup=gen_markup_main())
+    + ", мен ботмун, эмнени билгиңиз келет?", reply_markup=gen_markup_main())
     bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             
 
@@ -67,18 +67,18 @@ def send_welcome(message):
 @bot.message_handler(commands=['about'])
 def send_about(message):
 
-    bot.send_message(message.chat.id, "Здесь вы можете зарегистрироваться и получить ссылку на группу , в которую хотите вступить")
+    bot.send_message(message.chat.id,"Бул бот сизге каттоого кирүүгө жардам берип, топко кошулуу үчүн шилтемени жөнөтөт.")
     
 
 # /register
 @bot.message_handler(commands=["register"])
 def user_reg(message):
     if People.objects.filter(p_id=message.chat.id).exists():
-        msg = bot.send_message(message.chat.id, 'Вы уже зарегистрированы.')
+        msg = bot.send_message(message.chat.id, 'Сиз буга чейин катталгансыз.')
     else:
         markup = types.ReplyKeyboardRemove(selective=False)
-        msg = bot.send_message(message.chat.id, 'Уважаемый пользователь, вводите ваши верные данные. В ином случае ваша заявка не будет рассмотрена и вы не получите доступ к группам')
-        msg = bot.send_message(message.chat.id, 'Фамилия Имя Отчество',reply_markup=markup)
+        msg = bot.send_message(message.chat.id, 'Урматтуу колдонуучу, өзүңүздүн маалыматыңызды туура киргизиңиз.Болбосо, сиздин арызыңыз каралбайт жана сиз КР ЖӨБ Союзунун топторуна кошула албайсыз.')
+        msg = bot.send_message(message.chat.id, 'Фамилиясы Аты Атасынын аты.',reply_markup=markup)
         
         bot.register_next_step_handler(msg, process_fullname_step)
        
@@ -87,40 +87,40 @@ def process_fullname_step(message):
         chat_id = message.chat.id
         user_dict[chat_id] = People(p_id=chat_id,name=message.text)
     
-        msg = bot.send_message(chat_id, 'Номер телефона',reply_markup=gen_markup_number())
+        msg = bot.send_message(chat_id, 'Телефон номуру.',reply_markup=gen_markup_number())
         bot.register_next_step_handler(msg, process_phone_step)
 
     except Exception as e:
         print(e)
-        bot.reply_to(message, '🔠 Введите текст')
-        msg = bot.send_message(message.chat.id, 'Фамилия Имя Отчество')
+        bot.reply_to(message, '🔠 Текст киргизиңиз')
+        msg = bot.send_message(message.chat.id, 'Фамилиясы Аты Атасынын аты.')
         bot.register_next_step_handler(msg, process_fullname_step)
         
 def process_phone_step(message):
     try:
-        if message.text == '🏡 Главное меню':
+        if message.text == '🏡 Башкы меню':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
-            bot.send_message(message.chat.id, message.from_user.first_name+" выберите категорию",reply_markup=gen_markup_main())
+            bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
 
             chat_id = message.chat.id
             user = user_dict[chat_id]
             user.telephone = message.contact.phone_number
             
-            msg = bot.send_message(chat_id, 'Занимаемая должность',reply_markup=gen_markup_work())
+            msg = bot.send_message(chat_id, 'Ээлеген кызматы',reply_markup=gen_markup_work())
             bot.register_next_step_handler(msg, process_work_step)
                 
     except Exception as e:
         print(e)
-        msg = bot.reply_to(message, 'Вы ввели что то другое. Пожалуйста введите номер телефона.')
-        msg = bot.send_message(chat_id, 'Нажмите на кнопку \'Отправить телефон\'',reply_markup=gen_markup_number())
+        msg = bot.reply_to(message, 'Сиз башкабир нерсени киргиздиңиз. Сураныч,телефон  номерин киргизиңиз.')
+        msg = bot.send_message(chat_id, '\"Телефон жөнөтүү\" баскычын басыңыз.',reply_markup=gen_markup_number())
         bot.register_next_step_handler(msg, process_phone_step)
 
 def process_work_step(message):
     try:
-        if message.text == '🏡 Главное меню':
+        if message.text == '🏡 Башкы меню':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
-            bot.send_message(message.chat.id, message.from_user.first_name+" выберите категорию",reply_markup=gen_markup_main())
+            bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
             chat_id = message.chat.id
             user = user_dict[chat_id]
@@ -129,79 +129,79 @@ def process_work_step(message):
             # удалить старую клавиатуру
             markup = types.ReplyKeyboardRemove(selective=False)
 
-            msg = bot.send_message(chat_id, 'Область',reply_markup=gen_markup_place())
+            msg = bot.send_message(chat_id, 'Област',reply_markup=gen_markup_place())
             bot.register_next_step_handler(msg, process_place_step)
 
     except Exception as e:
-        bot.reply_to(message, 'Пожалуйста выберите что-то из списка ниже')
-        msg = bot.send_message(chat_id, 'Занимаемая должность',reply_markup=gen_markup_work())
+        bot.reply_to(message, 'Сураныч, астындагы тизмеден тандаңыз')
+        msg = bot.send_message(chat_id, 'Ээлеген кызматы',reply_markup=gen_markup_work())
         bot.register_next_step_handler(msg, process_work_step)
         
 def process_place_step(message):
     try:
-        if message.text == '🏡 Главное меню':
+        if message.text == '🏡 Башкы меню':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
-            bot.send_message(message.chat.id, message.from_user.first_name+" выберите категорию",reply_markup=gen_markup_main())
+            bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
             chat_id = message.chat.id
             user = user_dict[chat_id]
             user.place = get_place(message.text)
 
-            msg = bot.send_message(chat_id, 'Выберите категорию',reply_markup=gen_category())
+            msg = bot.send_message(chat_id, 'Категорияны тандаңыз',reply_markup=gen_category())
             bot.register_next_step_handler(msg, process_city_or_raion)
 
     except Exception as e:
-        bot.reply_to(message, 'Пожалуйста выберите что-то из списка ниже')
-        msg = bot.send_message(chat_id, 'Область',reply_markup=gen_markup_place())
+        bot.reply_to(message, 'Сураныч, астындагы тизмеден тандаңыз')
+        msg = bot.send_message(chat_id, 'Област',reply_markup=gen_markup_place())
         bot.register_next_step_handler(msg, process_place_step)
 
 def process_city_or_raion(message):
     try:
-        if message.text == '🏡 Главное меню':
+        if message.text == '🏡 Башкы меню':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
-            bot.send_message(message.chat.id, message.from_user.first_name+" выберите категорию",reply_markup=gen_markup_main())
+            bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
             chat_id = message.chat.id
             user = user_dict[chat_id]
             oblast = user.place          
             
-            if message.text == 'Город':
-                msg = bot.send_message(chat_id, 'Выберите город',reply_markup=get_city(oblast))
+            if message.text == 'Шаар':
+                msg = bot.send_message(chat_id, 'Шаар тандаңыз',reply_markup=get_city(oblast))
                 bot.register_next_step_handler(msg, process_save_city_or_obl)
             elif message.text == 'Район':
-                msg = bot.send_message(chat_id, 'Выберите район',reply_markup=gen_raion(oblast))
+                msg = bot.send_message(chat_id, 'Район тандаңыз',reply_markup=gen_raion(oblast))
                 bot.register_next_step_handler(msg, process_raion)
 
     except Exception as e:
         print(e)
-        bot.reply_to(message, 'Пожалуйста выберите что-то из списка ниже')
-        msg = bot.send_message(chat_id, 'Выберите категорию',reply_markup=gen_category())
+        bot.reply_to(message, 'Сураныч, астындагы тизмеден тандаңыз')
+        msg = bot.send_message(chat_id, 'Категорияны тандаңыз',reply_markup=gen_category())
         bot.register_next_step_handler(msg, process_city_or_raion)
 
 def process_raion(message):
     try:
-        if message.text == '🏡 Главное меню':
+        if message.text == '🏡 Башкы меню':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
-            bot.send_message(message.chat.id, message.from_user.first_name+" выберите категорию",reply_markup=gen_markup_main())
+            bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
             chat_id = message.chat.id
             user = user_dict[chat_id]
             user.raion = message.text
 
-            msg = bot.send_message(chat_id, 'Выберите кенеш',reply_markup=get_kenesh(message.text))
+            msg = bot.send_message(chat_id, 'Мэрия / айыл өкмөттү тандаңыз:',reply_markup=get_kenesh(message.text))
             bot.register_next_step_handler(msg, process_kenesh)
             
     except Exception as e:
         print(e)
-        bot.reply_to(message, 'Пожалуйста выберите что-то из списка ниже')
-        msg = bot.send_message(chat_id, 'Выберите категорию',reply_markup=gen_category())
+        bot.reply_to(message, 'Сураныч, астындагы тизмеден тандаңыз')
+        msg = bot.send_message(chat_id, 'Категорияны тандаңыз',reply_markup=gen_category())
         bot.register_next_step_handler(msg, process_city_or_raion)
 
 def process_kenesh(message):
     try:
-        if message.text == '🏡 Главное меню':
+        if message.text == '🏡 Башкы меню':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
-            bot.send_message(message.chat.id, message.from_user.first_name+" выберите категорию",reply_markup=gen_markup_main())
+            bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
             chat_id = message.chat.id
             user = user_dict[chat_id]
@@ -209,25 +209,25 @@ def process_kenesh(message):
             user.save()
             
         # ваша заявка "Имя пользователя"
-        bot.send_message(chat_id, getRegData(user, ' Ваша заявка', message.from_user.first_name), parse_mode="Markdown",reply_markup=gen_markup_main())
+        bot.send_message(chat_id, getRegData(user, ' Сиздин отүнмө', message.from_user.first_name), parse_mode="Markdown",reply_markup=gen_markup_main())
         
         # отправить админу
         try:
-            bot.send_message(settings.CHAT_ID, getRegData(user, 'Заявка от бота', bot.get_me().username), parse_mode="Markdown",reply_markup=gen_markup_ok())
+            bot.send_message(settings.CHAT_ID, getRegData(user, 'Боттон отүм', bot.get_me().username), parse_mode="Markdown",reply_markup=gen_markup_ok())
         except Exception as e:
             print(e)
                 
     except Exception as e:
         print(e)
-        bot.reply_to(message, 'Пожалуйста выберите что-то из списка ниже')
-        msg = bot.send_message(chat_id, 'Выберите категорию',reply_markup=gen_category())
+        bot.reply_to(message, 'Сураныч, астындагы тизмеден тандаңыз')
+        msg = bot.send_message(chat_id, 'Категорияны тандаңыз',reply_markup=gen_category())
         bot.register_next_step_handler(msg, process_city_or_raion)
         
 def process_save_city_or_obl(message):
     try:
-        if message.text == '🏡 Главное меню':
+        if message.text == '🏡 Башкы меню':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
-            bot.send_message(message.chat.id, message.from_user.first_name+" выберите категорию",reply_markup=gen_markup_main())
+            bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
             chat_id = message.chat.id
             user = user_dict[chat_id]
@@ -235,18 +235,18 @@ def process_save_city_or_obl(message):
             user.save()
             
         # ваша заявка "Имя пользователя"
-        bot.send_message(chat_id, getRegData(user, ' Ваша заявка', message.from_user.first_name), parse_mode="Markdown",reply_markup=gen_markup_main())
+        bot.send_message(chat_id, getRegData(user, ' Сиздин отүнмө', message.from_user.first_name), parse_mode="Markdown",reply_markup=gen_markup_main())
         
         # отправить админу
         try:
-            bot.send_message(settings.CHAT_ID, getRegData(user, 'Заявка от бота', bot.get_me().username), parse_mode="Markdown",reply_markup=gen_markup_ok())
+            bot.send_message(settings.CHAT_ID, getRegData(user, 'Боттон отүм', bot.get_me().username), parse_mode="Markdown",reply_markup=gen_markup_ok())
         except Exception as e:
             print(e)
                 
     except Exception as e:
         print(e)
-        bot.reply_to(message, 'Пожалуйста выберите что-то из списка ниже')
-        msg = bot.send_message(chat_id, 'Выберите категорию',reply_markup=gen_category())
+        bot.reply_to(message, 'Сураныч, астындагы тизмеден тандаңыз')
+        msg = bot.send_message(chat_id, 'Категорияны тандаңыз',reply_markup=gen_category())
         bot.register_next_step_handler(msg, process_city_or_raion)
         
 
@@ -255,7 +255,7 @@ def process_save_city_or_obl(message):
 # нельзя делать перенос строки Template
 # в send_message должно стоять parse_mode="Markdown"
 def getRegData(user, title, name):
-    t = Template('$title *$name* \n ФИО: *$fullname* \n Телефон: *$phone* \n Род деятельности: *$doljnost* \n Место проживания: *$place* \n Город: *$city* \n Район : *$raion* \n Кенеш : *$kenesh* \n ID: *$p_id*')
+    t = Template('$title *$name* \n ФИО: *$fullname* \n Телефон: *$phone* \n Кесиби: *$doljnost* \n Жашаган жери: *$place* \n Шаар: *$city* \n Район : *$raion* \n Мэрия / айыл өкмөтү: : *$kenesh* \n ID: *$p_id*')
 
     return t.substitute({
         'title': title,
@@ -273,22 +273,22 @@ def getRegData(user, title, name):
 # произвольный текст
 @bot.message_handler(content_types=["text"])
 def send_help(message):
-    if message.text=='📜 О боте':
+    if message.text=='📜 Бот жөнүндө':
         send_about(message)    
-    elif message.text=='📝 Регистрация':
+    elif message.text=='📝 Каттоого киргизүү':
         user_reg(message)
-    elif message.text=='🏡 Главное меню':
+    elif message.text=='🏡 Башкы меню':
         bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
-        bot.send_message(message.chat.id, message.from_user.first_name+" выберите категорию",reply_markup=gen_markup_main())
+        bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
     else:
-        bot.send_message(message.chat.id, 'Здесь вы можете зарегистрироваться и получить ссылку на группу , в которую хотите вступить',reply_markup=gen_markup_main())
+        bot.send_message(message.chat.id, 'Бул бот сизге каттоого кирүүгө жардам берип, топко кошулуу үчүн шилтемени жөнөтөт',reply_markup=gen_markup_main())
         
 
         
 # произвольное фото
 @bot.message_handler(content_types=["photo"])
 def send_help_text(message):
-    bot.send_message(message.chat.id, 'Напишите текст')
+    bot.send_message(message.chat.id, 'Текст киргизиңиз')
     
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -297,10 +297,10 @@ def handle_query(call):
         person = People.objects.get(p_id=call.message.text.split("ID:",1)[1].strip())
         person.sale = True
         person.save()
-        bot.send_message(person.p_id,'Ваша заявка была одобрена.Перейдите по ссылке чтобы вступить в группу :'+links[person.doljnost])
+        bot.send_message(person.p_id,'Өтүнмөңүз жактырылды.Топко кошулуу үчүн шилтемени басыңыз :'+links[person.doljnost])
     elif call.data == 'no':
         person = People.objects.get(p_id=call.message.text.split("ID:",1)[1].strip())
-        bot.send_message(person.p_id,'Ваша заявка была отклонена. Возможно при заполнении вы ввели некорректные данные.')
+        bot.send_message(person.p_id,'Өтүнмөңүз четке кагылды.Толтуруп жатканда туура эмес маалыматтарды киргизгендирсиз.')
         person.delete()
 
 # Enable saving next step handlers to file "./.handlers-saves/step.save".

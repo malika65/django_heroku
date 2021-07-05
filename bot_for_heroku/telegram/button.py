@@ -6,8 +6,8 @@ from .models import Oblasti,Kenesh,Raiony,City
 
 def gen_markup_main():
     markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
-    item1 = types.KeyboardButton('📜 О боте')
-    item2 = types.KeyboardButton('📝 Регистрация')
+    item1 = types.KeyboardButton('📜 Бот жөнүндө')
+    item2 = types.KeyboardButton('📝 Каттоого киргизүү')
     markup.add(item1,item2)
     
     return markup
@@ -45,7 +45,7 @@ def gen_markup_place():
     for i in oblasty:
         markup.add(types.KeyboardButton(str(i)))
 
-    back = types.KeyboardButton('🏡 Главное меню')
+    back = types.KeyboardButton('🏡 Башкы меню')
     markup.add(back)
     return markup
     
@@ -57,9 +57,9 @@ def get_place(txt):
 def gen_category():
     markup = types.ReplyKeyboardMarkup(row_width=1,one_time_keyboard=True, resize_keyboard=True)
     itembtn1 = types.KeyboardButton('Район')
-    itembtn2 = types.KeyboardButton('Город')
+    itembtn2 = types.KeyboardButton('Шаар')
     
-    back = types.KeyboardButton('🏡 Главное меню')
+    back = types.KeyboardButton('🏡 Башкы меню')
 
     markup.add(itembtn1, itembtn2,back)
     return markup
@@ -69,7 +69,7 @@ def gen_raion(oblast):
     r = Raiony.objects.filter(oblasti__name=oblast)
     for i in r:
         markup.add(types.KeyboardButton(str(i)))
-    back = types.KeyboardButton('🏡 Главное меню')
+    back = types.KeyboardButton('🏡 Башкы меню')
     markup.add(back)
 
     return markup
@@ -79,7 +79,7 @@ def get_city(oblast):
     r = City.objects.filter(oblasti__name=oblast)
     for i in r:
         markup.add(types.KeyboardButton(str(i)))
-    back = types.KeyboardButton('🏡 Главное меню')
+    back = types.KeyboardButton('🏡 Башкы меню')
     markup.add(back)
     return markup
 
@@ -88,7 +88,7 @@ def get_kenesh(raion):
     r = Kenesh.objects.filter(raiony__name=raion)
     for i in r:
         markup.add(types.KeyboardButton(str(i)))
-    back = types.KeyboardButton('🏡 Главное меню')
+    back = types.KeyboardButton('🏡 Башкы меню')
     markup.add(back)
     return markup
     
@@ -97,7 +97,7 @@ def get_kenesh(raion):
 
 def gen_markup_number():
     markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True) #Подключаем клавиатуру
-    button_phone = types.KeyboardButton(text="Отправить телефон", request_contact=True) #Указываем название кнопки, которая появится у пользователя
+    button_phone = types.KeyboardButton(text="Телефон жөнөтүү", request_contact=True) #Указываем название кнопки, которая появится у пользователя
     markup.add(button_phone) #Добавляем эту кнопку
     
     return markup
