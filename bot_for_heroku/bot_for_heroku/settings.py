@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-qw+z2vqi_i0301^i)l9ejio9w=i^_txa_*72#fr6%=onh+_bv0
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-TOKEN = '1786561689:AAHFpLGiEaW2KYKej1TliYxXcOOY-rFpKmU'
+TOKEN = '1786561689:AAGNfeqtianMvPYx8RYHiRf13ZZw-wMOB4A'
 CHAT_ID='503739355'
 # Application definition
 

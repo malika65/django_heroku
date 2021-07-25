@@ -29,7 +29,10 @@ links = {"Глава МСУ":"https://t.me/joinchat/Pug4_9U3A403ZTY6",
 "Депутат айылного кенеша":"https://t.me/joinchat/uhr3HwTpvXo3NzBi",
 "Депутат городского кенеша":"https://t.me/joinchat/q-XXDpdckdRkODNi",
 "Муниципальный служащий":"https://t.me/joinchat/hQ25EcquKttlMGJi",
-"Начальник ФЭО айыл окмоту/мэрии":"https://t.me/joinchat/O5Gb9mwAczM4NTA6"}
+"Начальник ФЭО айыл окмоту/мэрии":"https://t.me/joinchat/O5Gb9mwAczM4NTA6",
+"Партнерлор":"https://t.me/msu_union_info",
+"Эксперттер":"https://t.me/msu_union_info",
+"ЖОБ Союзунун окулу":"https://t.me/msu_union_info"}
 
 class UpdateBot(APIView):
     def post(self, request,):
