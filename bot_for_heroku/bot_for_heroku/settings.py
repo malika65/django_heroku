@@ -25,6 +25,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 TOKEN = config('TOKEN')
+
 CHAT_ID=config('CHAT_ID')
 
 # Quick-start development settings - unsuitable for production
