@@ -20,7 +20,7 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = django-insecure-qw+z2vqi_i0301^i)l9ejio9w=i^_txa_*72#fr6%=onh+_bv0
+SECRET_KEY = 'django-insecure-qw+z2vqi_i0301^i)l9ejio9w=i^_txa_*72#fr6%=onh+_bv0'
 
 DEBUG = True
 
