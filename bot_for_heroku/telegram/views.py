@@ -12,7 +12,6 @@ from .button import (
     gen_markup_work,
     gen_markup_number,
     gen_markup_place,
-    gen_markup_submenu,
     gen_raion,
     get_place,
     get_work,
