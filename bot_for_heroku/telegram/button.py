@@ -32,7 +32,7 @@ def gen_markup_work():
     itembtn8 = types.KeyboardButton('Эксперттер')
     itembtn9 = types.KeyboardButton('ЖОБ Союзунун окулу')
     
-    back = types.KeyboardButton('🏡 Главное меню')
+    back = types.KeyboardButton('🏡 Башкы меню')
 
     markup.add(itembtn1, itembtn2, itembtn3, itembtn4, itembtn5, itembtn6,itembtn7,itembtn8,itembtn9,back)
     return markup
