@@ -20,12 +20,13 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-qw+z2vqi_i0301^i)l9ejio9w=i^_txa_*72#fr6%=onh+_bv0'
+SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
-TOKEN = '1786561689:AAGNfeqtianMvPYx8RYHiRf13ZZw-wMOB4A'
-CHAT_ID='1786072205'
+TOKEN = config('TOKEN')
+
+CHAT_ID=config('CHAT_ID')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
