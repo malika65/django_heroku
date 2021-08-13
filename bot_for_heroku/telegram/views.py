@@ -58,7 +58,6 @@ class User:
 # если /help, /start
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
-    
     bot.send_message(message.chat.id, "Саламатсызбы "
     + message.from_user.first_name
     + ", мен ботмун, эмнени билгиңиз келет?", reply_markup=gen_markup_main())
