@@ -12,6 +12,15 @@ def gen_markup_main():
     
     return markup
 
+def chose_who():
+    markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+    item1 = types.KeyboardButton('Выбрать по должностям')
+    item2 = types.KeyboardButton('Выбрать по областям')
+    back = types.KeyboardButton('🏡 Башкы меню')
+    markup.add(item1,item2,back)
+    
+    return markup
+
 def gen_markup_ok():
     markup = types.InlineKeyboardMarkup()
     markup.row_width = 2
@@ -19,6 +28,14 @@ def gen_markup_ok():
     types.InlineKeyboardButton("No", callback_data="no"))
     return markup
 
+def admin_panel():
+    markup = types.InlineKeyboardMarkup()
+    markup.row_width = 1
+    markup.add(types.InlineKeyboardButton('Документ + текст', callback_data="doc"),
+    types.InlineKeyboardButton('Изображение + текст', callback_data="img"),
+    types.InlineKeyboardButton('Текст', callback_data="text"))
+    
+    return markup
 
 def gen_markup_work():
     markup = types.ReplyKeyboardMarkup(row_width=1,one_time_keyboard=True, resize_keyboard=True)

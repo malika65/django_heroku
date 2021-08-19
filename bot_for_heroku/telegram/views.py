@@ -2,6 +2,7 @@ from telebot import TeleBot, types
 from rest_framework.response import Response
 from rest_framework.views import APIView
 import telebot
+from telebot import types
 from django.conf import settings
 from bot.models import People
 from telebot import types
@@ -17,7 +18,9 @@ from .button import (
     get_work,
     get_kenesh,
     gen_category,
-    get_city
+    get_city,
+    admin_panel,
+    chose_who
 )
 
 
@@ -45,12 +48,21 @@ class UpdateBot(APIView):
 
 
 user_dict = {}
+distribut_dict = {}
 
 class User:
     
     def __init__(self, fullname):
         self.fullname = fullname
         keys = ['place','raion','phone','doljnost','city','kenesh']
+        for key in keys:
+            self.key = None
+
+class Distribution:
+    
+    def __init__(self, method):
+        self.method = method
+        keys = ['docum','whome','doljnost','oblast','text']
         for key in keys:
             self.key = None
 
@@ -70,6 +82,13 @@ def send_about(message):
 
     bot.send_message(message.chat.id,"Бул бот сизге каттоого кирүүгө жардам берип, топко кошулуу үчүн шилтемени жөнөтөт.")
     
+
+# /admin
+@bot.message_handler(commands=['admin'])
+def send_admin(message):
+    admin_id = 503739355
+    bot.send_message(admin_id,"Создавайте рассылки пользователям вашего бота",reply_markup=admin_panel())
+  
 
 # /register
 @bot.message_handler(commands=["register"])
@@ -146,7 +165,7 @@ def process_place_step(message):
         else:
             chat_id = message.chat.id
             user = user_dict[chat_id]
-            user.place = get_place(message.text)
+            user.oblast = get_place(message.text)
 
             msg = bot.send_message(chat_id, 'Категорияны тандаңыз',reply_markup=gen_category())
             bot.register_next_step_handler(msg, process_city_or_raion)
@@ -164,7 +183,7 @@ def process_city_or_raion(message):
         else:
             chat_id = message.chat.id
             user = user_dict[chat_id]
-            oblast = user.place          
+            oblast = user.oblast          
             
             if message.text == 'Шаар':
                 msg = bot.send_message(chat_id, 'Шаар тандаңыз',reply_markup=get_city(oblast))
@@ -285,24 +304,169 @@ def send_help(message):
         bot.send_message(message.chat.id, 'Бул бот сизге каттоого кирүүгө жардам берип, топко кошулуу үчүн шилтемени жөнөтөт',reply_markup=gen_markup_main())
         
 
-        
-# произвольное фото
-@bot.message_handler(content_types=["photo"])
-def send_help_text(message):
-    bot.send_message(message.chat.id, 'Текст киргизиңиз')
-    
+def add_text(message):
+    try:
+        if message.text == '🏡 Башкы меню':
+            bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
+            bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
+        else:
+            chat_id = message.chat.id
+            
+            distribution = distribut_dict[chat_id]
+            distribution.text = message.text
+            if distribution.method == 'doc':
+                msg = bot.send_message(message.chat.id, 'Выберите файл с устройства')
+                bot.register_next_step_handler(msg,docum_send)
+            elif distribution.method == 'img':
+                msg = bot.send_message(message.chat.id, 'Выберите изображение с устройства')
+                bot.register_next_step_handler(msg,photo_send)
+            elif distribution.method == 'text':
+                msg = bot.send_message(message.chat.id, "Выберите кому отправить",reply_markup=chose_who())
+                bot.register_next_step_handler(msg, choose_whome)
 
+    except Exception as e:
+        print(e)
+        msg = bot.reply_to(message, 'Введите описание вашей рассылки')
+        bot.register_next_step_handler(msg, add_text)
+        
+def docum_send(message):
+    try:
+        if message.text == '🏡 Башкы меню':
+            bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
+            bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
+        else:
+            chat_id = message.chat.id
+            distribution = distribut_dict[chat_id]
+           
+            file_info = bot.get_file(message.document.file_id)
+            downloaded_file = bot.download_file(file_info.file_path)
+
+            src = 'C:/Users/Lenovo/itrun/msu_bot/bot_for_heroku/telegram/distribution/' + message.document.file_name;
+            with open(src, 'wb') as new_file:
+                new_file.write(downloaded_file)
+
+            distribution.docum = downloaded_file
+
+            msg = bot.send_message(message.chat.id, "Выберите кому отправить",reply_markup=chose_who())
+            bot.register_next_step_handler(msg, choose_whome)
+
+    except Exception as e:
+        print(e)
+        msg = bot.reply_to(message, 'Выберите файл с устройства')
+        bot.register_next_step_handler(msg, docum_send)
+
+def photo_send(message):
+    try:
+        if message.text == '🏡 Башкы меню':
+            bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
+            bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
+        else:
+            chat_id = message.chat.id
+            distribution = distribut_dict[chat_id]
+            
+            distribution.docum = message.photo[0].file_id
+            
+            msg = bot.send_message(message.chat.id, "Выберите кому отправить",reply_markup=chose_who())
+            bot.register_next_step_handler(msg, choose_whome)
+
+    except Exception as e:
+        print(e)
+        msg = bot.reply_to(message, 'Выберите файл с устройства')
+        bot.register_next_step_handler(msg, docum_send)
+
+
+
+def choose_whome(message):
+    try:
+        if message.text == '🏡 Башкы меню':
+            bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
+            bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
+        else:
+            chat_id = message.chat.id
+
+            distribution = distribut_dict[chat_id]
+            distribution.whome = message.text
+
+            if distribution.whome == 'Выбрать по должностям':
+                msg = bot.send_message(message.chat.id, "Выберите кому отправить",reply_markup=gen_markup_work())
+                bot.register_next_step_handler(msg,send_dist)
+
+            elif distribution.whome == 'Выбрать по областям':
+                msg = bot.send_message(message.chat.id, "Выберите куда отправить",reply_markup=gen_markup_place())
+                bot.register_next_step_handler(msg,send_dist)
+
+    except Exception as e:
+        print(e)
+        msg = bot.reply_to(message, 'Выберите кому отправить')
+        bot.register_next_step_handler(msg, choose_whome)
+
+def send_dist(message):
+    try:
+        if message.text == '🏡 Башкы меню':
+            bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
+            bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
+        else:
+            chat_id = message.chat.id
+            distribution = distribut_dict[chat_id]
+            if distribution.whome == 'Выбрать по должностям':
+                users = People.objects.filter(doljnost=get_work(message.text))
+            elif distribution.whome == 'Выбрать по областям':
+                users = People.objects.filter(oblast=message.text)
+            for user in users:
+                try:
+                    if distribution.method == 'doc':
+                        bot.send_message(user.p_id,distribution.text)
+                        bot.send_document(user.p_id, distribution.docum,parse_mode="Markdown")
+                    elif distribution.method == 'img':
+                        bot.send_message(user.p_id,distribution.text)
+                        bot.send_photo(user.p_id, photo=distribution.docum, caption=message.caption)
+                    elif distribution.method == 'text':
+                        bot.send_message(user.p_id,distribution.text)
+                       
+                except Exception as e:
+                    continue
+        bot.send_message(settings.CHAT_ID, "Рассылка была отправлена всем выбраным пользователям",reply_markup=gen_markup_main())
+
+            
+    except Exception as e:
+        print(e)
+        msg = bot.reply_to(message, 'Выберите кому отправить')
+        bot.register_next_step_handler(msg, choose_whome)
+        
+    
 @bot.callback_query_handler(func=lambda call: True)
 def handle_query(call):
-    if call.data == 'yes':
-        person = People.objects.get(p_id=call.message.text.split("ID:",1)[1].strip())
-        person.sale = True
-        person.save()
-        bot.send_message(person.p_id,'Өтүнмөңүз жактырылды.Топко кошулуу үчүн шилтемени басыңыз :'+links[person.doljnost])
-    elif call.data == 'no':
-        person = People.objects.get(p_id=call.message.text.split("ID:",1)[1].strip())
-        bot.send_message(person.p_id,'Өтүнмөңүз четке кагылды.Толтуруп жатканда туура эмес маалыматтарды киргизгендирсиз.')
-        person.delete()
+    try:
+        if call.data == 'yes':
+            person = People.objects.get(p_id=call.message.text.split("ID:",1)[1].strip())
+            person.sale = True
+            person.save()
+            bot.send_message(person.p_id,'Өтүнмөңүз жактырылды.Топко кошулуу үчүн шилтемени басыңыз :'+links[person.doljnost])
+        elif call.data == 'no':
+            person = People.objects.get(p_id=call.message.text.split("ID:",1)[1].strip())
+            bot.send_message(person.p_id,'Өтүнмөңүз четке кагылды.Толтуруп жатканда туура эмес маалыматтарды киргизгендирсиз.')
+            person.delete()
+
+        elif call.data == 'doc':
+            try:
+                msg = bot.send_message(call.message.chat.id, 'Введите описание вашей рассылки')
+                chat_id = call.message.chat.id
+                distribut_dict[chat_id] = Distribution(call.data)
+                bot.register_next_step_handler(msg,add_text)
+            except Exception as e:
+                print("Excelent")
+                print(e)
+                
+        elif call.data == 'img':
+            msg = bot.send_message(call.message.chat.id, 'Введите описание вашей рассылки')
+            distribut_dict[call.message.chat.id] = Distribution(call.data)
+            bot.register_next_step_handler(msg,add_text)
+        elif call.data == 'text':
+            msg = bot.send_message(call.message.chat.id, 'Введите описание вашей рассылки')
+            distribut_dict[call.message.chat.id] = Distribution(call.data)
+            bot.register_next_step_handler(msg,add_text)
+    except Exception as e:
+        print(e)
 
 # Enable saving next step handlers to file "./.handlers-saves/step.save".
 # Delay=2 means that after any change in next step handlers (e.g. calling register_next_step_handler())
