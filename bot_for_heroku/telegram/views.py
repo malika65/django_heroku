@@ -86,8 +86,7 @@ def send_about(message):
 # /admin
 @bot.message_handler(commands=['admin'])
 def send_admin(message):
-    admin_id = 503739355
-    bot.send_message(admin_id,"Создавайте рассылки пользователям вашего бота",reply_markup=admin_panel())
+    bot.send_message(settings.CHAT_ID,"Создавайте рассылки пользователям вашего бота",reply_markup=admin_panel())
   
 
 # /register
