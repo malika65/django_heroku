@@ -20,7 +20,8 @@ from .button import (
     gen_category,
     get_city,
     admin_panel,
-    chose_who
+    chose_who,
+    gen_kanal
 )
 
 
@@ -73,6 +74,10 @@ def send_welcome(message):
     bot.send_message(message.chat.id, "Саламатсызбы "
     + message.from_user.first_name
     + ", мен ботмун, эмнени билгиңиз келет?", reply_markup=gen_markup_main())
+
+    bot.send_message(message.chat.id, "Бардык окуялардан кабардар болуп туруу үчүн биздин телеграм каналыбызга өтүңүз"
+    , reply_markup=gen_kanal())
+
     bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             
 
@@ -106,7 +111,7 @@ def process_fullname_step(message):
         chat_id = message.chat.id
         user_dict[chat_id] = People(p_id=chat_id,name=message.text)
     
-        msg = bot.send_message(chat_id, 'Телефон номуру.',reply_markup=gen_markup_number())
+        msg = bot.send_message(chat_id, '\"Телефон жөнөтүү\" баскычын басыңыз.',reply_markup=gen_markup_number())
         bot.register_next_step_handler(msg, process_phone_step)
 
     except Exception as e:
@@ -305,7 +310,7 @@ def send_help(message):
 
 def add_text(message):
     try:
-        if message.text == '🏡 Башкы меню' or message.text == '📝 Сбросить':
+        if message.text == '🏡 Башкы меню' or message.text == '📝 Башынан баштоо':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
@@ -330,7 +335,7 @@ def add_text(message):
         
 def docum_send(message):
     try:
-        if message.text == '🏡 Башкы меню' or message.text == '📝 Сбросить':
+        if message.text == '🏡 Башкы меню' or message.text == '📝 Башынан баштоо':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
@@ -356,7 +361,7 @@ def docum_send(message):
 
 def photo_send(message):
     try:
-        if message.text == '🏡 Башкы меню' or message.text == '📝 Сбросить':
+        if message.text == '🏡 Башкы меню' or message.text == '📝 Башынан баштоо':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
@@ -377,7 +382,7 @@ def photo_send(message):
 
 def choose_whome(message):
     try:
-        if message.text == '🏡 Башкы меню' or message.text == '📝 Сбросить':
+        if message.text == '🏡 Башкы меню' or message.text == '📝 Башынан баштоо':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
@@ -401,7 +406,7 @@ def choose_whome(message):
 
 def send_dist(message):
     try:
-        if message.text == '🏡 Башкы меню' or message.text == '📝 Сбросить':
+        if message.text == '🏡 Башкы меню' or message.text == '📝 Башынан баштоо':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
@@ -441,6 +446,10 @@ def handle_query(call):
             person.sale = True
             person.save()
             bot.send_message(person.p_id,'Өтүнмөңүз жактырылды.Топко кошулуу үчүн шилтемени басыңыз :'+links[person.doljnost])
+
+            bot.send_message(message.chat.id, "Бардык окуялардан кабардар болуп туруу үчүн биздин телеграм каналыбызга өтүңүз"
+            , reply_markup=gen_kanal())
+            
         elif call.data == 'no':
             person = People.objects.get(p_id=call.message.text.split("ID:",1)[1].strip())
             bot.send_message(person.p_id,'Өтүнмөңүз четке кагылды.Толтуруп жатканда туура эмес маалыматтарды киргизгендирсиз.')

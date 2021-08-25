@@ -8,7 +8,7 @@ def gen_markup_main():
     markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
     item1 = types.KeyboardButton('📜 Бот жөнүндө')
     item2 = types.KeyboardButton('📝 Каттоого киргизүү')
-    item3 = types.KeyboardButton('📝 Сбросить')
+    item3 = types.KeyboardButton('📝 Башынан баштоо')
     markup.add(item1,item2,item3)
     
     return markup
@@ -27,6 +27,12 @@ def gen_markup_ok():
     markup.row_width = 2
     markup.add(types.InlineKeyboardButton("Yes", callback_data="yes"),
     types.InlineKeyboardButton("No", callback_data="no"))
+    return markup
+
+def gen_kanal():
+    markup = types.InlineKeyboardMarkup()
+    markup.row_width = 1
+    markup.add(types.InlineKeyboardButton("Телеграм канал", url="https://t.me/msu_union_info"))
     return markup
 
 def admin_panel():

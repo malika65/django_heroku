@@ -17,6 +17,8 @@ class People(models.Model):
         verbose_name = 'Люди'
         verbose_name_plural = 'Люди'
 
+    def __unicode__(self):
+        return self.name
 
     def __str__(self):
         return self.name
