@@ -8,6 +8,7 @@ def gen_markup_main():
     markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
     item1 = types.KeyboardButton('📜 Бот жөнүндө')
     item2 = types.KeyboardButton('📝 Каттоого киргизүү')
+    item2 = types.KeyboardButton('📝 Сбросить')
     markup.add(item1,item2)
     
     return markup

@@ -244,7 +244,7 @@ def process_kenesh(message):
         
 def process_save_city_or_obl(message):
     try:
-        if message.text == '🏡 Башкы меню':
+        if message.text == '🏡 Башкы меню' or message.text == '📝 Сбросить':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
@@ -305,7 +305,7 @@ def send_help(message):
 
 def add_text(message):
     try:
-        if message.text == '🏡 Башкы меню':
+        if message.text == '🏡 Башкы меню' or message.text == '📝 Сбросить':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
@@ -330,7 +330,7 @@ def add_text(message):
         
 def docum_send(message):
     try:
-        if message.text == '🏡 Башкы меню':
+        if message.text == '🏡 Башкы меню' or message.text == '📝 Сбросить':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
@@ -356,7 +356,7 @@ def docum_send(message):
 
 def photo_send(message):
     try:
-        if message.text == '🏡 Башкы меню':
+        if message.text == '🏡 Башкы меню' or message.text == '📝 Сбросить':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
@@ -377,7 +377,7 @@ def photo_send(message):
 
 def choose_whome(message):
     try:
-        if message.text == '🏡 Башкы меню':
+        if message.text == '🏡 Башкы меню' or message.text == '📝 Сбросить':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
@@ -401,7 +401,7 @@ def choose_whome(message):
 
 def send_dist(message):
     try:
-        if message.text == '🏡 Башкы меню':
+        if message.text == '🏡 Башкы меню' or message.text == '📝 Сбросить':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
