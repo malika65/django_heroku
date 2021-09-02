@@ -237,7 +237,8 @@ def process_kenesh(message):
             
         # ваша заявка "Имя пользователя"
         bot.send_message(chat_id, getRegData(user, ' Сиздин отүнмө', message.from_user.first_name), parse_mode="Markdown",reply_markup=gen_markup_main())
-        
+        bot.send_message(chat_id, getRegData(user, ' Сиздин отүнмөңүз кабыл алынганда, сизге билдирүү келет '), parse_mode="Markdown",reply_markup=gen_markup_main())
+
         # отправить админу
         try:
             bot.send_message(settings.CHAT_ID, getRegData(user, 'Боттон отүм', bot.get_me().username), parse_mode="Markdown",reply_markup=gen_markup_ok())
@@ -252,7 +253,7 @@ def process_kenesh(message):
         
 def process_save_city_or_obl(message):
     try:
-        if message.text == '🏡 Башкы меню' or message.text == '📝 Сбросить':
+        if message.text == '🏡 Башкы меню' or message.text == '📝 Башынан баштоо':
             bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             bot.send_message(message.chat.id, message.from_user.first_name+" категорияны тандаңыз",reply_markup=gen_markup_main())
         else:
@@ -263,6 +264,7 @@ def process_save_city_or_obl(message):
             
         # ваша заявка "Имя пользователя"
         bot.send_message(chat_id, getRegData(user, ' Сиздин отүнмө', message.from_user.first_name), parse_mode="Markdown",reply_markup=gen_markup_main())
+        bot.send_message(chat_id, getRegData(user, ' Сиздин отүнмөңүз кабыл алынганда, сизге билдирүү келет '), parse_mode="Markdown",reply_markup=gen_markup_main())
         
         # отправить админу
         try:
