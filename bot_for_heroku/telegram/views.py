@@ -27,13 +27,13 @@ from .button import (
 
 bot = telebot.TeleBot(settings.TOKEN)
   
-links = {"Глава МСУ":"https://t.me/joinchat/Pug4_9U3A403ZTY6",
-"Мэр города":"https://t.me/joinchat/bAhpq76qt0AyYTky",
-"Депутат айылного кенеша":"https://t.me/joinchat/uhr3HwTpvXo3NzBi",
-"Депутат городского кенеша":"https://t.me/joinchat/q-XXDpdckdRkODNi",
-"Муниципальный служащий":"https://t.me/joinchat/hQ25EcquKttlMGJi",
-"Начальник ФЭО айыл окмоту/мэрии":"https://t.me/joinchat/O5Gb9mwAczM4NTA6",
-"Партнерлор":"https://t.me/msu_union_info",
+links = {"ЖӨБ башчысы":"https://t.me/joinchat/Pug4_9U3A403ZTY6",
+"Шаардын мэри":"https://t.me/joinchat/bAhpq76qt0AyYTky",
+"Айылдык кеңештин депутаты":"https://t.me/joinchat/uhr3HwTpvXo3NzBi",
+"Шаардык кеңештин депутаты":"https://t.me/joinchat/q-XXDpdckdRkODNi",
+"Муниципалдык кызматкер":"https://t.me/joinchat/hQ25EcquKttlMGJi",
+"ФЭО айыл өкмөтүнүн башчысы / мэрия":"https://t.me/joinchat/O5Gb9mwAczM4NTA6",
+"Өнөктөш":"https://t.me/msu_union_info",
 "Эксперттер":"https://t.me/msu_union_info",
 "ЖОБ Союзунун окулу":"https://t.me/msu_union_info"}
 
@@ -76,6 +76,9 @@ def send_welcome(message):
     + ", мен ботмун, эмнени билгиңиз келет?", reply_markup=gen_markup_main())
 
     bot.send_message(message.chat.id, "Бардык окуялардан кабардар болуп туруу үчүн биздин телеграм каналыбызга өтүңүз"
+    , reply_markup=gen_kanal())
+
+    bot.send_message(message.chat.id, "https://www.youtube.com/watch?v=knpNbLKO0QA"
     , reply_markup=gen_kanal())
 
     bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
