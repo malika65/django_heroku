@@ -78,8 +78,7 @@ def send_welcome(message):
     bot.send_message(message.chat.id, "Бардык окуялардан кабардар болуп туруу үчүн биздин телеграм каналыбызга өтүңүз"
     , reply_markup=gen_kanal())
 
-    bot.send_message(message.chat.id, "https://www.youtube.com/watch?v=knpNbLKO0QA"
-    , reply_markup=gen_kanal())
+    bot.send_message(message.chat.id, "https://www.youtube.com/watch?v=knpNbLKO0QA")
 
     bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
             
