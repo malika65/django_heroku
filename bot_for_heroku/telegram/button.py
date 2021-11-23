@@ -29,6 +29,13 @@ def gen_markup_ok():
     types.InlineKeyboardButton("No", callback_data="no"))
     return markup
 
+def gen_message_okey():
+    markup = types.InlineKeyboardMarkup()
+    markup.row_width = 1
+    markup.add(types.InlineKeyboardButton("Ссылка отправлена", callback_data="cool"))
+    
+    return markup
+
 def gen_kanal():
     markup = types.InlineKeyboardMarkup()
     markup.row_width = 1

@@ -21,7 +21,8 @@ from .button import (
     get_city,
     admin_panel,
     chose_who,
-    gen_kanal
+    gen_kanal,
+    gen_message_okey
 )
 
 
@@ -454,14 +455,14 @@ def handle_query(call):
             bot.send_message(message.chat.id, "Бардык окуялардан кабардар болуп туруу үчүн биздин телеграм каналыбызга өтүңүз"
             , reply_markup=gen_kanal())
 
-            bot.editMessageText(chat_id=call.message.chat_id,message_id=call.message.message_id,reply_markup=gen_markup_main())
+            bot.editMessageText(chat_id=call.message.chat_id,message_id=call.message.message_id,reply_markup=gen_message_okey())
             
         elif call.data == 'no':
             person = People.objects.get(p_id=call.message.text.split("ID:",1)[1].strip())
             bot.send_message(person.p_id,'Өтүнмөңүз четке кагылды.Толтуруп жатканда туура эмес маалыматтарды киргизгендирсиз.')
             person.delete()
             
-            bot.editMessageText(chat_id=call.message.chat_id,message_id=call.message.message_id,reply_markup=gen_markup_main())
+            bot.editMessageText(chat_id=call.message.chat_id,message_id=call.message.message_id,reply_markup=gen_message_okey())
 
         elif call.data == 'doc':
             try:
