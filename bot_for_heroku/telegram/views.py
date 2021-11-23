@@ -35,7 +35,7 @@ links = {"ЖӨБ башчысы":"https://t.me/joinchat/Pug4_9U3A403ZTY6",
 "ФЭО айыл өкмөтүнүн башчысы / мэрия":"https://t.me/joinchat/O5Gb9mwAczM4NTA6",
 "Өнөктөш":"https://t.me/msu_union_info",
 "Эксперттер":"https://t.me/msu_union_info",
-"ЖӨБ Союзунун өкүлү":"https://t.me/msu_union_info"}
+"ЖӨБ Союзунун өкүлү":"https://t.me/joinchat/ybYj8oCE3JM4N2Fi"}
 
 class UpdateBot(APIView):
     def post(self, request,):
@@ -453,11 +453,15 @@ def handle_query(call):
 
             bot.send_message(message.chat.id, "Бардык окуялардан кабардар болуп туруу үчүн биздин телеграм каналыбызга өтүңүз"
             , reply_markup=gen_kanal())
+
+            bot.editMessageText(chat_id=call.message.chat_id,message_id=call.message.message_id,reply_markup=gen_markup_main())
             
         elif call.data == 'no':
             person = People.objects.get(p_id=call.message.text.split("ID:",1)[1].strip())
             bot.send_message(person.p_id,'Өтүнмөңүз четке кагылды.Толтуруп жатканда туура эмес маалыматтарды киргизгендирсиз.')
             person.delete()
+            
+            bot.editMessageText(chat_id=call.message.chat_id,message_id=call.message.message_id,reply_markup=gen_markup_main())
 
         elif call.data == 'doc':
             try:
