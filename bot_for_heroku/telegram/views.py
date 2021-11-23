@@ -452,7 +452,7 @@ def handle_query(call):
             person.save()
             bot.send_message(person.p_id,'Өтүнмөңүз жактырылды.Топко кошулуу үчүн шилтемени басыңыз :'+links[person.doljnost])
 
-            bot.send_message(message.chat.id, "Бардык окуялардан кабардар болуп туруу үчүн биздин телеграм каналыбызга өтүңүз"
+            bot.send_message(call.message.chat.id, "Бардык окуялардан кабардар болуп туруу үчүн биздин телеграм каналыбызга өтүңүз"
             , reply_markup=gen_kanal())
 
             bot.editMessageText(chat_id=call.message.chat_id,message_id=call.message.message_id,reply_markup=gen_message_okey())
