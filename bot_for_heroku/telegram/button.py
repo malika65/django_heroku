@@ -54,7 +54,7 @@ def gen_markup_work():
     itembtn6 = types.KeyboardButton('👩‍💼 ФЭО айыл өкмөтүнүн башчысы / мэрия')
     itembtn7 = types.KeyboardButton('Өнөктөш')
     itembtn8 = types.KeyboardButton('Эксперттер')
-    itembtn9 = types.KeyboardButton('ЖОБ Союзунун окулу')
+    itembtn9 = types.KeyboardButton('ЖӨБ Союзунун өкүлү')
     
     back = types.KeyboardButton('🏡 Башкы меню')
 

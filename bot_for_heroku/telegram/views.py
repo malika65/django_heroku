@@ -236,7 +236,7 @@ def process_kenesh(message):
             
         # ваша заявка "Имя пользователя"
         bot.send_message(chat_id, getRegData(user, ' Сиздин отүнмө', message.from_user.first_name), parse_mode="Markdown",reply_markup=gen_markup_main())
-        bot.send_message(chat_id, getRegData(user, ' Сиздин отүнмөңүз кабыл алынганда, сизге билдирүү келет '), parse_mode="Markdown",reply_markup=gen_markup_main())
+        bot.send_message(chat_id, getRegData(user, ' Сиздин отүнмөңүз кабыл алынганда, сизге билдирүү келет ', message.from_user.first_name), parse_mode="Markdown",reply_markup=gen_markup_main())
 
         # отправить админу
         try:
@@ -263,7 +263,7 @@ def process_save_city_or_obl(message):
             
         # ваша заявка "Имя пользователя"
         bot.send_message(chat_id, getRegData(user, ' Сиздин отүнмө', message.from_user.first_name), parse_mode="Markdown",reply_markup=gen_markup_main())
-        bot.send_message(chat_id, getRegData(user, ' Сиздин отүнмөңүз кабыл алынганда, сизге билдирүү келет '), parse_mode="Markdown",reply_markup=gen_markup_main())
+        bot.send_message(chat_id, getRegData(user, ' Сиздин отүнмөңүз кабыл алынганда, сизге билдирүү келет ', message.from_user.first_name), parse_mode="Markdown",reply_markup=gen_markup_main())
         
         # отправить админу
         try:
