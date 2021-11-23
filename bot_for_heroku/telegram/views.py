@@ -35,7 +35,7 @@ links = {"ЖӨБ башчысы":"https://t.me/joinchat/Pug4_9U3A403ZTY6",
 "ФЭО айыл өкмөтүнүн башчысы / мэрия":"https://t.me/joinchat/O5Gb9mwAczM4NTA6",
 "Өнөктөш":"https://t.me/msu_union_info",
 "Эксперттер":"https://t.me/msu_union_info",
-"ЖОБ Союзунун окулу":"https://t.me/msu_union_info"}
+"ЖӨБ Союзунун өкүлү":"https://t.me/msu_union_info"}
 
 class UpdateBot(APIView):
     def post(self, request,):
