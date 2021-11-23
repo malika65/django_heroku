@@ -39,7 +39,7 @@ def gen_message_okey():
 def gen_kanal():
     markup = types.InlineKeyboardMarkup()
     markup.row_width = 1
-    markup.add(types.InlineKeyboardButton("Телеграм канал", url="https://t.me/msu_union_info"))
+    markup.add(types.InlineKeyboardButton("🎊 Телеграм канал 🎊", url="https://t.me/msu_union_info"))
     return markup
 
 def admin_panel():
