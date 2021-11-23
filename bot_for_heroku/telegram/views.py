@@ -76,7 +76,7 @@ def send_welcome(message):
     + message.from_user.first_name
     + ", мен ботмун, эмнени билгиңиз келет?", reply_markup=gen_markup_main())
 
-    bot.send_message(message.chat.id, "Бардык окуялардан кабардар болуп туруу үчүн биздин телеграм каналыбызга өтүңүз"
+    bot.send_message(message.chat.id, "Бардык окуялардан кабардар болуп туруу үчүн биздин телеграм каналыбызга өтүңүз ✅"
     , reply_markup=gen_kanal())
 
     bot.send_message(message.chat.id, "https://www.youtube.com/watch?v=knpNbLKO0QA")
@@ -452,7 +452,7 @@ def handle_query(call):
             person.save()
             bot.send_message(person.p_id,'Өтүнмөңүз жактырылды.Топко кошулуу үчүн шилтемени басыңыз :'+links[person.doljnost])
 
-            bot.send_message(person.p_id, "Бардык окуялардан кабардар болуп туруу үчүн биздин телеграм каналыбызга өтүңүз"
+            bot.send_message(person.p_id, "Бардык окуялардан кабардар болуп туруу үчүн биздин телеграм каналыбызга өтүңүз ✅"
             , reply_markup=gen_kanal())
 
             bot.edit_message_reply_markup(chat_id=call.message.chat.id,message_id=call.message.message_id,reply_markup=gen_message_okey())
